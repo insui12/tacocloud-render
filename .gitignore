@@ -1,0 +1,48 @@
+# ── 실습과제 25-3 — Render 호스팅용 .gitignore (강의자료 슬라이드 20) ──
+# Render 가 GitHub 에서 코드를 pull 하기 때문에, 빌드 산출물 / IDE 파일 /
+# 비밀 정보 등은 절대 commit 되지 않아야 한다.
+
+# Maven 빌드 산출물
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 비밀 정보 — 환경별 properties 의 평문 비밀번호 절대 commit X
+# (application-prod.properties 는 ${MONGODB_PASSWORD} 환경변수 치환만 사용해
+#  자체적으로 안전하지만, .env 같은 파일은 명시적으로 차단)
+.env
+.env.local
+*.local.properties
