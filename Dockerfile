@@ -22,4 +22,8 @@ WORKDIR /app
 COPY --from=builder /app/target/*.jar /app/taco.jar
 EXPOSE 8085
 ENV SPRING_PROFILES_ACTIVE=prod
-ENTRYPOINT ["sh", "-c", "java -jar /app/taco.jar"]
+# Render Free tier 는 512 MB 메모리 제한 → JVM heap 을 명시적으로 작게 두지 않으면 OOM kill
+# -Xmx320m: 힙 상한 320 MB, 나머지 ~192 MB 는 metaspace + native + 컨테이너 오버헤드
+# -XX:+UseSerialGC: 단일 코어 인스턴스에서 G1 보다 메모리 효율적
+# -Djava.security.egd=file:/dev/./urandom: SecureRandom 초기화 지연 회피
+ENTRYPOINT ["sh", "-c", "java -Xms128m -Xmx320m -XX:+UseSerialGC -Djava.security.egd=file:/dev/./urandom -jar /app/taco.jar"]
